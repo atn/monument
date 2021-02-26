@@ -1,10 +1,23 @@
 import React, { useState } from 'react'
 import { Text, View, TextInput } from 'react-native'
 import { LongButton } from './LongButton'
+import { useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function Setup() {
   const [domain, onChangeDomain] = useState('')
   const [token, onTokenChange] = useState('')
+  const dispatch = useDispatch()
+
+  function setup(domain: string, token: string) {
+    // TODO: check if token is valid
+    console.log(domain, token)
+    dispatch({type: 'SETTOKEN', value: token})
+    dispatch({type: 'SETDOMAIN', value: domain})
+    AsyncStorage.setItem('canvas-auth', token)
+    AsyncStorage.setItem('canvas-domain', domain)
+  }
+
   return (
     <View>
       <View style={{marginTop: 60, marginBottom: 55, margin: 17, borderRadius: 20}}>
@@ -17,6 +30,7 @@ export function Setup() {
           onChangeText={text => onChangeDomain(text)}
           value={domain}
           autoFocus={true}
+          autoCorrect={false}
           placeholder="example.com"
         />
         <Text style={{fontWeight: 'bold', paddingBottom: 5, paddingTop: 30, fontSize: 18}}>Nice, paste your canvas authorization token here.</Text>
@@ -28,7 +42,7 @@ export function Setup() {
           value={token}
           placeholder="XXXXX"
         />
-        <LongButton title='Done' disabled={domain === '' || token === ''} color='#edfff9' />
+        <LongButton title='Done' disabled={domain === '' || token === ''} color='#edfff9' onPress={() => setup(domain, token)} />
       </View>
     </View>
   )

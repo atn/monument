@@ -22,7 +22,7 @@ export function AssignmentModal(props: props) {
     >
       <StatusBar hidden={shouldHideStatusBar} animated />
       <View style={{padding: 20}}>
-        <View style={{ padding: 20, alignSelf: 'flex-end', position: 'absolute',}}>
+        <View style={{ padding: 20, paddingTop: 10, alignSelf: 'flex-end', position: 'absolute',}}>
           <LongButton color='#e8e8e8' title="Close" onPress={() => props.close()} />
         </View>
         <View style={{marginTop: 30}}>

@@ -8,7 +8,6 @@ type props = {
 }
 
 export function MsgCell(props: props) {
-  console.log(props.item)
   return (
     <>
       <TouchableOpacity>

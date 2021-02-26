@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react'
-import { StatusBar } from 'react-native'
+import { StatusBar, View, Text } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import { Ionicons } from '@expo/vector-icons'
+import { PersistGate } from 'redux-persist/integration/react'
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useStore } from './store'
+
+import { persistor, store } from './store'
 
 import { Setup } from './components/Setup'
 import { Todo } from './components/TodoList'
 import { Inbox } from './components/Inbox'
+import { LongButton } from './components/LongButton'
 
 const Tabs = createBottomTabNavigator()
 
@@ -17,7 +23,13 @@ function App() {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state)
   useEffect(() => {
-    AsyncStorage.getItem('canvas-auth').then((key) => dispatch({type: 'SETTOKEN', value: key}))
+    // this might not be needed
+    AsyncStorage.getItem('canvas-auth').then((key) => {
+      if (key) {
+        dispatch({type: 'SETTOKEN', value: key.replace(/\s/g, '')})
+        console.log(key)
+      }
+    })
     AsyncStorage.getItem('canvas-domain').then((key) => dispatch({type: 'SETDOMAIN', value: key}))
   }, [])
   return (
@@ -29,10 +41,13 @@ function App() {
             switch (route.name) {
               case 'Todo':
                 iconName='list'
-              break;
+                break;
               case 'Inbox':
                 iconName='mail'
-              break;
+                break;
+              case 'Settings':
+                iconName='cog'
+                break;
               case 'Setup':
                 iconName='construct'
             }
@@ -44,6 +59,7 @@ function App() {
             <>
               <Tabs.Screen name="Todo" component={Todo}/>
               <Tabs.Screen name="Inbox" component={Inbox}/>
+              <Tabs.Screen name="Settings" component={Settings}/>
             </>
           ) : (
             <>
@@ -57,10 +73,27 @@ function App() {
 }
 
 export default function Index() {
-  const store = useStore()
   return (
   <Provider store={store}>
+    <PersistGate persistor={persistor}>
     <App/>
+    </PersistGate>
   </Provider>
+  )
+}
+
+function Settings() {
+  const dispatch = useDispatch()
+  function logout() {
+    dispatch({type: 'SETTOKEN', value: null})
+    dispatch({type: 'SETDOMAIN', value: null})
+    AsyncStorage.setItem('canvas-domain', '')
+    AsyncStorage.setItem('canvas-auth', '')
+  }
+  return (
+    <View style={{marginTop: 60, marginBottom: 60, margin: 17, borderRadius: 20}}>
+      <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Settings</Text>
+      <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
+    </View>
   )
 }
