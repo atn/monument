@@ -7,6 +7,7 @@ import HTML from "react-native-render-html";
 import { makeApiRequest } from '../utils/rest.util'
 
 import { LongButton } from './LongButton'
+import { dateTimeFormat } from './TodoList';
 
 type props = {
   isShowing: boolean,
@@ -29,7 +30,7 @@ export function AssignmentModal(props: props) {
           <LongButton color='#e8e8e8' title="Close" onPress={() => props.close()} />
         </View>
         <View style={{marginTop: 30}}>
-          <Text style={{fontSize: 15, fontWeight: '600'}}>{props.assignment.locked_for_user ? "Locked" : "Unlocked"}</Text>
+          <Text style={{fontSize: 15, fontWeight: '600'}}>Due {dateTimeFormat.format(new Date(props.assignment.due_at))}</Text>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>{props.assignment.name}</Text>
           <HTML source={{html: props.assignment.description || "No Description"}}></HTML>
         </View>

@@ -13,9 +13,9 @@ export function Setup() {
     // TODO: check if token is valid
     console.log(domain, token)
     dispatch({type: 'SETTOKEN', value: token})
-    dispatch({type: 'SETDOMAIN', value: domain})
+    dispatch({type: 'SETDOMAIN', value: domain.toLowerCase()})
     AsyncStorage.setItem('canvas-auth', token)
-    AsyncStorage.setItem('canvas-domain', domain)
+    AsyncStorage.setItem('canvas-domain', domain.toLowerCase())
   }
 
   return (

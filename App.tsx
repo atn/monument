@@ -101,7 +101,12 @@ function Settings() {
       <Text style={{paddingBottom: 3, fontSize: 18}}>Logged in as <Text style={{fontWeight: 'bold'}}>{state.user.short_name}</Text></Text>
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
-      <LongButton onPress={() => Updates.checkForUpdateAsync()} color="#fed6ff" title="Check for updates"/>
+      <LongButton onPress={() => checkForUpdate()} color="#ccfff0" title="Check for updates"/>
     </View>
   )
+}
+
+async function checkForUpdate() {
+  const res = await Updates.checkForUpdateAsync()
+  if (res.isAvailable) Updates.reloadAsync()
 }
