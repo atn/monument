@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, FlatList } from 'react-native'
+import { Text, View, FlatList, TouchableOpacity } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeApiRequest } from '../utils/rest.util'
 import { Ionicons } from '@expo/vector-icons'
@@ -59,7 +59,9 @@ export function Todo() {
           <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>
           <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Todo</Text>
         </View>
-        <Ionicons onPress={() => (missing as any).current.snapTo(1)} style={{marginLeft: 'auto', alignSelf: 'center'}} name='notifications-circle' size={30} />
+        <TouchableOpacity style={{marginLeft: 'auto', alignSelf: 'center'}}  onPress={() => (missing as any).current.snapTo(1)} >
+          <Ionicons name='notifications-circle' size={30} />
+        </TouchableOpacity>
       </View>
         {assignments &&
           <FlatList style={{paddingBottom: 100}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />

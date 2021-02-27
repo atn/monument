@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "me.astn.canvas",
-      "buildNumber": "3"
+      "buildNumber": "4"
     }
   }
 }

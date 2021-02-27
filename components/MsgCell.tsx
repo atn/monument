@@ -11,7 +11,7 @@ type props = {
 export function MsgCell(props: props) {
   return (
     <>
-      <TouchableOpacity>
+      <TouchableOpacity activeOpacity={0.4}>
         <View style={{borderRadius: 9, padding: 11, margin: 4, backgroundColor: '#fff'}}  key={props.item.id}>
           <Text style={{fontWeight: 'bold'}}>{props.item.subject}</Text>
           {props.item.participants.length === 2 &&
