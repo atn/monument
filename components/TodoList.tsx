@@ -53,7 +53,7 @@ export function Todo() {
         snapPoints={[-100, 400]}
         renderContent={renderMissing}
       />
-    <View style={{marginTop: 60, marginBottom: 60, margin: 17, borderRadius: 20}}>
+    <View style={{marginTop: 50, marginBottom: 60, margin: 17, borderRadius: 20}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>

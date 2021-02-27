@@ -96,7 +96,7 @@ function Settings() {
     AsyncStorage.setItem('canvas-auth', '')
   }
   return (
-    <View style={{marginTop: 60, marginBottom: 60, margin: 17, borderRadius: 20}}>
+    <View style={{marginTop: 50, marginBottom: 60, margin: 17, borderRadius: 20}}>
       <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 8}}>Settings</Text>
       <Text style={{paddingBottom: 3, fontSize: 18}}>Logged in as <Text style={{fontWeight: 'bold'}}>{state.user.short_name}</Text></Text>
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>

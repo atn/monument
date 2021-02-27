@@ -28,7 +28,7 @@ export function Inbox() {
   }
 
   return (
-    <View style={{marginTop: 60, marginBottom: 60, margin: 17, borderRadius: 20}}>
+    <View style={{marginTop: 50, marginBottom: 60, margin: 17, borderRadius: 20}}>
       <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>
       <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Inbox</Text>
       {conversations &&

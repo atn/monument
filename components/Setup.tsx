@@ -20,13 +20,14 @@ export function Setup() {
 
   return (
     <View>
-      <View style={{marginTop: 60, marginBottom: 55, margin: 17, borderRadius: 20}}>
-        <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Setup</Text>
-        <Text style={{fontWeight: 'bold', paddingBottom: 5, fontSize: 18}}>Hey! Ready to start setup?</Text>
-        <Text style={{fontWeight: 'bold', paddingBottom: 5, paddingTop: 30, fontSize: 18}}>What's your schools Canvas domain name?</Text>
+      <View style={{marginTop: 50, marginBottom: 55, margin: 17, borderRadius: 20}}>
+        <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Setup ⛩</Text>
+        <Text style={{fontWeight: 'bold', paddingBottom: 5, fontSize: 18}}>Hey! Ready to setup monument?</Text>
+        <Text style={{paddingBottom: 5, fontSize: 13}}>All of your information is stored locally🔒</Text>
+        <Text style={{fontWeight: 'bold', paddingBottom: 5, paddingTop: 20, fontSize: 18}}>What's your schools Canvas domain name?</Text>
         <Text style={{paddingBottom: 5, fontSize: 13}}>Usually, it's similar to "your-school.instructure.com"</Text>
         <TextInput
-          style={{ borderRadius: 10, backgroundColor: '#fff', padding: 7, fontSize: 17, height: 35, width: 300 }}
+          style={{ borderRadius: 10, backgroundColor: '#fff', padding: 7, fontSize: 17, height: 35, width: 320 }}
           onChangeText={text => onChangeDomain(text)}
           value={domain}
           autoFocus={true}
@@ -34,9 +35,9 @@ export function Setup() {
           placeholder="example.com"
         />
         <Text style={{fontWeight: 'bold', paddingBottom: 5, paddingTop: 30, fontSize: 18}}>Nice, paste your canvas authorization token here.</Text>
-        <Text style={{paddingBottom: 5, fontSize: 13}}>Make sure you dont leave any spaces or extra characters.</Text>
+        <Text style={{paddingBottom: 5, fontSize: 13}}>You can get this from your canvas profile settings, under "Approved Integrations"</Text>
         <TextInput
-          style={{ borderRadius: 10, backgroundColor: '#fff', padding: 7, fontSize: 17, height: 35, width: 300 }}
+          style={{ borderRadius: 10, backgroundColor: '#fff', padding: 7, fontSize: 17, height: 35, width: 320 }}
           onChangeText={text => onTokenChange(text)}
           autoCorrect={false}
           value={token}
