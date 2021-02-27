@@ -1,7 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const persistConfig = {
@@ -15,7 +13,8 @@ const persistConfig = {
 
 const initialState = {
   token: '',
-  domain: ''
+  domain: '',
+  user: {}
 }
 
 //
@@ -28,6 +27,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         token: action.value
+      }
+    case 'SETUSER':
+      return {
+        ...state,
+        user: action.value
       }
     case 'SETDOMAIN':
       return {

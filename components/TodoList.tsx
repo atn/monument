@@ -1,7 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react'
-import { Text, View, FlatList, Button } from 'react-native'
+import { Text, View, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
+import { makeApiRequest } from '../utils/rest.util'
 
 import { TodoCell } from './TodoCell'
 
@@ -21,26 +21,25 @@ export function Todo() {
   useEffect(() => {
     setRefresh(true)
     fetchAPI()
+    fetchUser()
   }, [])
 
   function fetchAPI() {
-    console.log(state)
-    fetch(`https://${state.domain}/api/v1/users/self/todo?per_page=100`, {
-      "headers": {
-        "accept": "application/json+canvas-string-ids, application/json",
-        "authorization": `Bearer ${state.token}`
-      },
-      "referrer": `https://${state.domain}/`,
-      "referrerPolicy": "no-referrer-when-downgrade",
-      "method": "GET",
-      "mode": "cors",
-    }).then(res => res.json().then((json) => {
+    makeApiRequest('/users/self/todo?per_page=100', state)
+    .then(res => res.json().then((json) => {
       if (json) {
         storeApi(json)
         return setRefresh(false)
       }
       storeApi([])
-    }))
+   }))
+  }
+
+  function fetchUser() {
+    makeApiRequest('/users/self', state)
+    .then(res => res.json().then((json) => {
+      if (json) return dispatch({type: 'SETUSER', value: json})
+   }))
   }
 
   return (
@@ -52,7 +51,7 @@ export function Todo() {
         </View>
       </View>
         {assignments &&
-          <FlatList refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
+          <FlatList style={{paddingBottom: 100}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
         }
     </View>
     )

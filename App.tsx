@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { StatusBar, View, Text } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
+import * as Updates from 'expo-updates';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,10 +26,7 @@ function App() {
   useEffect(() => {
     // this might not be needed
     AsyncStorage.getItem('canvas-auth').then((key) => {
-      if (key) {
-        dispatch({type: 'SETTOKEN', value: key.replace(/\s/g, '')})
-        console.log(key)
-      }
+      if (key) dispatch({type: 'SETTOKEN', value: key.replace(/\s/g, '')})
     })
     AsyncStorage.getItem('canvas-domain').then((key) => dispatch({type: 'SETDOMAIN', value: key}))
   }, [])
@@ -84,6 +82,8 @@ export default function Index() {
 
 function Settings() {
   const dispatch = useDispatch()
+  const state = useSelector((state: any) => state)
+
   function logout() {
     dispatch({type: 'SETTOKEN', value: null})
     dispatch({type: 'SETDOMAIN', value: null})
@@ -92,8 +92,11 @@ function Settings() {
   }
   return (
     <View style={{marginTop: 60, marginBottom: 60, margin: 17, borderRadius: 20}}>
-      <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Settings</Text>
+      <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 8}}>Settings</Text>
+      <Text style={{paddingBottom: 3, fontSize: 18}}>Logged in as <Text style={{fontWeight: 'bold'}}>{state.user.short_name}</Text></Text>
+      <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
+      <LongButton onPress={() => Updates.checkForUpdateAsync()} color="#fed6ff" title="Check for updates"/>
     </View>
   )
 }

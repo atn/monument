@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import * as WebBrowser from 'expo-web-browser';
+import * as Linking from 'expo-linking';
 import { View, Modal, Text, StatusBar } from 'react-native'
 import { styles } from '../styles'
 import HTML from "react-native-render-html";
@@ -13,14 +13,12 @@ type props = {
 }
 
 export function AssignmentModal(props: props) {
-  const [shouldHideStatusBar, hideStatusBar] = useState(false)
   return (
     <Modal
       visible={props.isShowing}
       animationType="slide"
       presentationStyle={"pageSheet"}
     >
-      <StatusBar hidden={shouldHideStatusBar} animated />
       <View style={{padding: 20}}>
         <View style={{ padding: 20, paddingTop: 10, alignSelf: 'flex-end', position: 'absolute',}}>
           <LongButton color='#e8e8e8' title="Close" onPress={() => props.close()} />
@@ -32,13 +30,12 @@ export function AssignmentModal(props: props) {
         </View>
       </View>
       <View style={styles.bottom}>
-        <LongButton  color='#00C781' onPress={() => openAssignment(props.assignment.html_url, () => hideStatusBar(true))} title="Submit"/>
+        <LongButton  color='#00C781' onPress={() => openAssignment(props.assignment.html_url)} title="Open in Browser"/>
       </View>
     </Modal>
   )
 }
 
-function openAssignment(url: string, statusBar: () => void) {
-  statusBar()
-  WebBrowser.openBrowserAsync(url);
+function openAssignment(url: string ) {
+  Linking.openURL(url);
 };
