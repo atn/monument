@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { StatusBar, View, Text } from 'react-native'
+import { StatusBar, View, Text, Platform } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
 import * as Updates from 'expo-updates';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,6 +22,7 @@ import { LongButton } from './components/LongButton'
 const Tabs = createBottomTabNavigator()
 
 function App() {
+  if (Platform.OS !== 'ios') return <Text>Unsupported OS</Text>
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state)
   useEffect(() => {
@@ -31,6 +33,7 @@ function App() {
     AsyncStorage.getItem('canvas-domain').then((key) => dispatch({type: 'SETDOMAIN', value: key}))
   }, [])
   return (
+
     <NavigationContainer>
       <Tabs.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -74,7 +77,9 @@ export default function Index() {
   return (
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-    <App/>
+      <SafeAreaProvider>
+          <App />
+      </SafeAreaProvider>
     </PersistGate>
   </Provider>
   )
