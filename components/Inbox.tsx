@@ -8,9 +8,9 @@ import { MsgCell } from './MsgCell'
 import { makeApiRequest } from '../utils/rest.util'
 
 export function Inbox() {
+  const state = useSelector((state: any) => state)
   const [conversations, storeApi] = useState([])
   const [refreshing, setRefresh] = useState(false)
-  const state = useSelector((state: any) => state)
   useEffect(() => {
     setRefresh(true)
     fetchAPI()

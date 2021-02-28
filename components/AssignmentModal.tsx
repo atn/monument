@@ -16,8 +16,8 @@ type props = {
 }
 
 export function AssignmentModal(props: props) {
-  const [ shouldHideStatusBar, setStatusBar ] = useState(false)
   const state = useSelector((state: any) => state)
+  const [ shouldHideStatusBar, setStatusBar ] = useState(false)
   return (
     <Modal
       visible={props.isShowing}

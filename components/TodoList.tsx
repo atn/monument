@@ -9,7 +9,6 @@ import BottomSheet from 'reanimated-bottom-sheet'
 import { TodoCell } from './TodoCell'
 
 export const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
-  timeZoneName: 'short',
   weekday: 'long',
   month: 'long',
   day: 'numeric',
@@ -23,11 +22,12 @@ export const todayFormat = new Intl.DateTimeFormat('en-US', {
 });
 
 export function Todo() {
+  const dispatch = useDispatch()
+  const state = useSelector((state: any) => state)
   const [assignments, storeApi] = useState([])
   const [refreshing, setRefresh] = useState(false)
   const missing = React.useRef<BottomSheet>(null);
-  const dispatch = useDispatch()
-  const state = useSelector((state: any) => state)
+
   useEffect(() => {
     setRefresh(true)
     fetchAPI()
