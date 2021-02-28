@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput } from 'react-native'
+import { Text, View, TextInput, SafeAreaView } from 'react-native'
 import { LongButton } from './LongButton'
 import { useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -19,8 +19,8 @@ export function Setup() {
   }
 
   return (
-    <View>
-      <View style={{marginTop: 50, marginBottom: 55, margin: 17, borderRadius: 20}}>
+    <SafeAreaView>
+      <View style={{margin: 17}}>
         <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Setup ⛩</Text>
         <Text style={{fontWeight: 'bold', paddingBottom: 5, fontSize: 18}}>Hey! Ready to setup monument?</Text>
         <Text style={{paddingBottom: 5, fontSize: 13}}>All of your information is stored locally🔒</Text>
@@ -45,6 +45,6 @@ export function Setup() {
         />
         <LongButton title='Done' disabled={domain === '' || token === ''} color='#edfff9' onPress={() => setup(domain, token)} />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
