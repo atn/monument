@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import { StatusBar, View, Text, Platform } from 'react-native'
+import { StatusBar, Text, Platform, SafeAreaView } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
 import * as Updates from 'expo-updates';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -33,7 +32,6 @@ function App() {
     AsyncStorage.getItem('canvas-domain').then((key) => dispatch({type: 'SETDOMAIN', value: key}))
   }, [])
   return (
-
     <NavigationContainer>
       <Tabs.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -77,9 +75,7 @@ export default function Index() {
   return (
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <SafeAreaProvider>
-          <App />
-      </SafeAreaProvider>
+        <App />
     </PersistGate>
   </Provider>
   )
@@ -96,13 +92,13 @@ function Settings() {
     AsyncStorage.setItem('canvas-auth', '')
   }
   return (
-    <View style={{marginTop: 50, marginBottom: 60, margin: 17, borderRadius: 20}}>
-      <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 8}}>Settings</Text>
+    <SafeAreaView style={{margin: 17}}>
+      <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 4}}>Settings</Text>
       <Text style={{paddingBottom: 3, fontSize: 18}}>Logged in as <Text style={{fontWeight: 'bold'}}>{state.user.short_name}</Text></Text>
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
       <LongButton onPress={() => checkForUpdate()} color="#ccfff0" title="Check for updates"/>
-    </View>
+    </SafeAreaView>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, FlatList, TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeApiRequest } from '../utils/rest.util'
 import { Ionicons } from '@expo/vector-icons'
@@ -9,9 +9,15 @@ import BottomSheet from 'reanimated-bottom-sheet'
 import { TodoCell } from './TodoCell'
 
 export const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
+  timeZoneName: 'short',
   weekday: 'long',
   month: 'long',
   day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+});
+
+export const todayFormat = new Intl.DateTimeFormat('en-US', {
   hour: 'numeric',
   minute: 'numeric',
 });
@@ -53,7 +59,7 @@ export function Todo() {
         snapPoints={[-100, 400]}
         renderContent={renderMissing}
       />
-    <View style={{marginTop: 50, marginBottom: 60, margin: 17, borderRadius: 20}}>
+    <SafeAreaView style={{margin: 17}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>
@@ -66,7 +72,7 @@ export function Todo() {
         {assignments &&
           <FlatList style={{paddingBottom: 100}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
         }
-    </View>
+    </SafeAreaView>
     </>
     )
 }
