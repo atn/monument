@@ -3,11 +3,12 @@ import * as WebBrowser from 'expo-web-browser';
 import { View, Modal, Text, StatusBar } from 'react-native'
 import { useSelector } from 'react-redux'
 import { styles } from '../styles'
-import HTML from "react-native-render-html";
+import HTML from 'react-native-render-html';
 import { makeApiRequest } from '../utils/rest.util'
 
 import { LongButton } from './LongButton'
 import { dateTimeFormat } from './TodoList';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type props = {
   isShowing: boolean,
@@ -32,7 +33,9 @@ export function AssignmentModal(props: props) {
         <View style={{marginTop: 30}}>
           <Text style={{fontSize: 15, fontWeight: '600'}}>Due {dateTimeFormat.format(new Date(props.assignment.due_at))}</Text>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>{props.assignment.name}</Text>
-          <HTML source={{html: props.assignment.description || "No Description"}}></HTML>
+          <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+            <HTML source={{html: props.assignment.description || "No Description"}}></HTML>
+          </ScrollView>
         </View>
       </View>
       <View style={styles.bottom}>
