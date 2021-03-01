@@ -101,7 +101,7 @@ function Settings() {
     <SafeAreaView style={{margin: 17}}>
       <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 4}}>Settings</Text>
       <Text style={{paddingBottom: 3, fontSize: 18}}>Logged in as <Text style={{fontWeight: 'bold'}}>{state.user.short_name}</Text></Text>
-      <Text>enrolled in <Text style={{fontWeight: 'bold'}}>{state.courses.length}</Text> course{state.courses.length === 0 ? 's' : ''}</Text>
+      <Text>enrolled in <Text style={{fontWeight: 'bold'}}>{state.courses.length}</Text> course{state.courses.length > 1 ? 's' : ''}</Text>
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
       <LongButton onPress={() => checkForUpdate()} color="#ccfff0" title="Check for updates"/>
