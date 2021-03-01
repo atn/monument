@@ -50,6 +50,11 @@ export function Todo() {
     .then(res => res.json().then((json) => {
       if (json) return dispatch({type: 'SETUSER', value: json})
    }))
+   makeApiRequest('/courses', state)
+   .then(res => res.json().then((json) => {
+     console.log(json)
+     if (json) return dispatch({type: 'SETCOURSES', value: json})
+    }))
   }
 
   return (

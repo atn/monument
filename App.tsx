@@ -35,7 +35,7 @@ function App() {
     <NavigationContainer>
       <Tabs.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+            let iconName: string;
 
             switch (route.name) {
               case 'Todo':
@@ -88,16 +88,24 @@ function Settings() {
   function logout() {
     dispatch({type: 'SETTOKEN', value: null})
     dispatch({type: 'SETDOMAIN', value: null})
+    dispatch({type: 'SETUSER', value: {}})
     AsyncStorage.setItem('canvas-domain', '')
     AsyncStorage.setItem('canvas-auth', '')
   }
+
+  function clearCache() {
+    return
+  }
+
   return (
     <SafeAreaView style={{margin: 17}}>
       <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 4}}>Settings</Text>
       <Text style={{paddingBottom: 3, fontSize: 18}}>Logged in as <Text style={{fontWeight: 'bold'}}>{state.user.short_name}</Text></Text>
+      <Text>enrolled in <Text style={{fontWeight: 'bold'}}>{state.courses.length}</Text> course{state.courses.length === 0 ? 's' : ''}</Text>
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
       <LongButton onPress={() => checkForUpdate()} color="#ccfff0" title="Check for updates"/>
+      <LongButton onPress={() => clearCache()} color="#fbffab" title="Clear Cache"/>
     </SafeAreaView>
   )
 }

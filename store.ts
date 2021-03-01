@@ -14,7 +14,8 @@ const persistConfig = {
 const initialState = {
   token: '',
   domain: '',
-  user: {}
+  user: {},
+  courses: []
 }
 
 //
@@ -37,6 +38,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         domain: action.value
+      }
+    case 'SETCOURSES':
+      return {
+        ...state,
+        courses: action.value
       }
     default:
       return state
