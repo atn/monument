@@ -30,7 +30,8 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "react-native-reanimated": "~1.13.0",
-    "react-native-gesture-handler": "~1.8.0"
+    "react-native-gesture-handler": "~1.8.0",
+    "expo-barcode-scanner": "~9.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

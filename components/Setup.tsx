@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, SafeAreaView } from 'react-native'
+import { Text, View, TextInput, SafeAreaView, TouchableOpacity } from 'react-native'
 import { LongButton } from './LongButton'
 import { useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export function Setup() {
+export function Setup({ navigation }) {
   const [domain, onChangeDomain] = useState('')
   const [token, onTokenChange] = useState('')
   const dispatch = useDispatch()
@@ -14,6 +14,7 @@ export function Setup() {
     console.log(domain, token)
     dispatch({type: 'SETTOKEN', value: token})
     dispatch({type: 'SETDOMAIN', value: domain.toLowerCase()})
+    AsyncStorage.setItem('auth-type', 'token')
     AsyncStorage.setItem('canvas-auth', token)
     AsyncStorage.setItem('canvas-domain', domain.toLowerCase())
   }
@@ -30,7 +31,6 @@ export function Setup() {
           style={{ borderRadius: 10, backgroundColor: '#fff', padding: 7, fontSize: 17, height: 35, width: 320 }}
           onChangeText={text => onChangeDomain(text)}
           value={domain}
-          autoFocus={true}
           autoCorrect={false}
           placeholder="example.com"
         />
@@ -43,6 +43,9 @@ export function Setup() {
           value={token}
           placeholder="XXXXX"
         />
+        <TouchableOpacity onPress={() => navigation.navigate('QR Setup')}>
+          <Text style={{paddingTop: 5, fontWeight: 'bold', color: 'blue'}}>Or, scan a QR code</Text>
+        </TouchableOpacity>
         <LongButton title='Done' disabled={domain === '' || token === ''} color='#edfff9' onPress={() => setup(domain, token)} />
       </View>
     </SafeAreaView>

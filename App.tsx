@@ -13,6 +13,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { persistor, store } from './store'
 
+import { getNewToken } from './utils/rest.util'
+
+import { QRSetup } from './components/QRSetup'
 import { Setup } from './components/Setup'
 import { Todo } from './components/TodoList'
 import { Inbox } from './components/Inbox'
@@ -25,9 +28,18 @@ function App() {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state)
   useEffect(() => {
-    // this might not be needed
+    // need this b/c redis doesn't persist sometimes
     AsyncStorage.getItem('canvas-auth').then((key) => {
       if (key) dispatch({type: 'SETTOKEN', value: key.replace(/\s/g, '')})
+    })
+    AsyncStorage.getItem('auth-type').then((key) => {
+      if (key === 'qr') {
+        (async () => {
+          const refresh = await AsyncStorage.getItem('canvas-refresh')
+          const token = await getNewToken(refresh, state.domain)
+          dispatch({type: 'SETTOKEN', value: token.access_token})
+        })()
+      }
     })
     AsyncStorage.getItem('canvas-domain').then((key) => dispatch({type: 'SETDOMAIN', value: key}))
   }, [])
@@ -49,6 +61,9 @@ function App() {
                 break;
               case 'Setup':
                 iconName='construct'
+                break;
+              case 'QR Setup':
+                iconName='qr-code'
             }
             // You can return any component that you like here!
             return <Ionicons name={iconName as any} size={size} color={color} />;
@@ -62,6 +77,7 @@ function App() {
             </>
           ) : (
             <>
+              <Tabs.Screen name="QR Setup" component={QRSetup}/>
               <Tabs.Screen name="Setup" component={Setup}/>
             </>
           )}

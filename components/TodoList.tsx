@@ -52,7 +52,6 @@ export function Todo() {
    }))
    makeApiRequest('/courses', state)
    .then(res => res.json().then((json) => {
-     console.log(json)
      if (json) return dispatch({type: 'SETCOURSES', value: json})
     }))
   }
@@ -75,7 +74,7 @@ export function Todo() {
         </TouchableOpacity>
       </View>
         {assignments &&
-          <FlatList style={{paddingBottom: 100}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
+          <FlatList style={{paddingBottom: 20}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
         }
     </SafeAreaView>
     </>
