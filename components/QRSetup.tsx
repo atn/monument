@@ -3,8 +3,9 @@ import { Text, View, SafeAreaView, StyleSheet, Button, TouchableOpacity } from '
 import { LongButton } from './LongButton'
 import { useDispatch } from 'react-redux'
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { loginWithQR } from '../utils/rest.util';
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function QRSetup({navigation}) {
   const [hasPermission, setHasPermission] = useState(false);
@@ -32,7 +33,7 @@ export function QRSetup({navigation}) {
     // If code isn't correct URL
     if (!data.includes('https://sso.canvaslms.com/canvas/login?')) {
       setHasPermission(false)
-      setScanned(false)
+      return setScanned(false)
     }
 
     setScanned(true)
