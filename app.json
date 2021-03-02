@@ -19,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "me.astn.canvas",
       "buildNumber": "6"
     }
