@@ -40,7 +40,7 @@ export async function loginWithQR(code: string, domain) {
     })
   })
 
-  if (res.status !== 200) return { error: true }
+  if (!res.ok) return { error: true }
 
   const json = await res.json()
   console.log(json)

@@ -23,7 +23,7 @@ export function Inbox() {
   function fetchAPI() {
     makeApiRequest('/conversations?scope=inbox', state)
       .then(res => {
-        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
         res.json().then((json) => {
           if (json) {
             storeApi(json)
