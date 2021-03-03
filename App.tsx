@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react'
 import { StatusBar, Text, Platform, SafeAreaView } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
-
+import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Ionicons } from '@expo/vector-icons'
-import { PersistGate } from 'redux-persist/integration/react'
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { persistor, store } from './store'
 

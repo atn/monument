@@ -9,7 +9,7 @@ type props = {
   item: any
 }
 
-const isToday = (someDate: Date) => {
+export const isToday = (someDate: Date) => {
   const today = new Date()
   return someDate.getDate() == today.getDate() &&
     someDate.getMonth() == today.getMonth() &&
