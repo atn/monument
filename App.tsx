@@ -36,6 +36,7 @@ function App() {
         (async () => {
           const refresh = await AsyncStorage.getItem('canvas-refresh')
           const token = await getNewToken(refresh, state.domain)
+          if (token.error) return alert('Error getting access token. Please logout.')
           dispatch({type: 'SETTOKEN', value: token.access_token})
         })()
       }

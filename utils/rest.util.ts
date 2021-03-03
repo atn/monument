@@ -63,6 +63,7 @@ export async function getNewToken(refreshtoken: string, domain: string) {
       grant_type: 'refresh_token'
     })
   })
+  if (!res.ok) return { error: true }
 
   const json = await res.json()
 
