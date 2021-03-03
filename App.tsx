@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { StatusBar, Text, Platform, SafeAreaView } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
-import * as Updates from 'expo-updates';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +18,7 @@ import { QRSetup } from './components/QRSetup'
 import { Setup } from './components/Setup'
 import { Todo } from './components/TodoList'
 import { Inbox } from './components/Inbox'
+import { Attribution } from './components/Attribution'
 import { Chat } from './components/chat/Chat'
 import { LongButton } from './components/LongButton'
 
@@ -128,11 +128,7 @@ function Settings() {
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
       <LongButton onPress={() => clearCache()} color="#fbffab" title="Clear Cache"/>
+      <Attribution />
     </SafeAreaView>
   )
-}
-
-async function checkForUpdate() {
-  const res = await Updates.checkForUpdateAsync()
-  if (res.isAvailable) Updates.reloadAsync()
 }

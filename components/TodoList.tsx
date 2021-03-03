@@ -30,31 +30,51 @@ export function Todo() {
   const missing = React.useRef<BottomSheet>(null);
 
   useEffect(() => {
-    setRefresh(true)
-    fetchAPI()
-    fetchUser()
+    try {
+      setRefresh(true)
+      fetchAPI()
+      fetchUser()
+    } catch (err) {
+      alert(err.toString())
+    }
   }, [])
 
   function fetchAPI() {
-    makeApiRequest('/users/self/todo?per_page=100', state)
-    .then(res => res.json().then((json) => {
-      if (json) {
-        storeApi(json)
-        return setRefresh(false)
-      }
-      storeApi([])
-   }))
+    makeApiRequest('/users/self/todo', state)
+      .then(res => {
+        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        res.json().then((json) => {
+          if (json) {
+            storeApi(json)
+            return setRefresh(false)
+          }
+          storeApi([])
+          return setRefresh(false)
+        })
+      })
   }
 
   function fetchUser() {
     makeApiRequest('/users/self', state)
-    .then(res => res.json().then((json) => {
-      if (json) return dispatch({type: 'SETUSER', value: json})
-   }))
-   makeApiRequest('/courses', state)
-   .then(res => res.json().then((json) => {
-     if (json) return dispatch({type: 'SETCOURSES', value: json})
-    }))
+      .then(res => {
+        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        res.json().then((json) => {
+          if (json) return dispatch({
+            type: 'SETUSER',
+            value: json
+          })
+        })
+      })
+    makeApiRequest('/courses', state)
+      .then(res => {
+        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        res.json().then((json) => {
+          if (json) return dispatch({
+            type: 'SETCOURSES',
+            value: json
+          })
+        })
+      })
   }
 
   function renderNotifs() {
@@ -102,7 +122,7 @@ function Notifications() {
   }, [])
 
   function fetchNotifications() {
-    makeApiRequest('/users/self/missing_submissions?filter%5B%5D=submittable&include%5B%5D=planner_overrides', state).then((res) => res.json().then((json) => {
+    makeApiRequest('/users/self/missing_submissions?filter%5B%5D=submittable&include%5B%5D=planner_overrides', state).then((res) => res.json().then(async (json) => {
       if (typeof json == 'object') {
         let hasOverdue: boolean
         // muted is 
@@ -115,8 +135,8 @@ function Notifications() {
         
         if (hasOverdue) dispatch({ type: 'SETOVERDUE', value: true })
         else dispatch({ type: 'SETOVERDUE', value: false })
-        storeApi(json)
-        return setRefresh(false)
+        await storeApi(json)
+        setRefresh(false)
       }
     }))
   }

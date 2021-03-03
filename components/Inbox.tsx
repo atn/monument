@@ -12,19 +12,26 @@ export function Inbox() {
   const [conversations, storeApi] = useState([])
   const [refreshing, setRefresh] = useState(false)
   useEffect(() => {
-    setRefresh(true)
-    fetchAPI()
+    try {
+      setRefresh(true)
+      fetchAPI()
+    } catch (err) {
+      alert(err.toString())
+    }
   }, [])
 
   function fetchAPI() {
     makeApiRequest('/conversations?scope=inbox', state)
-    .then(res => res.json().then((json) => {
-      if (json) {
-        storeApi(json)
-        return setRefresh(false)
-      }
-      storeApi([])
-    }))
+      .then(res => {
+        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        res.json().then((json) => {
+          if (json) {
+            storeApi(json)
+            return setRefresh(false)
+          }
+          storeApi([])
+        })
+      })
   }
 
   return (
