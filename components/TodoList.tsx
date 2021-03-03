@@ -102,9 +102,19 @@ function Notifications() {
   }, [])
 
   function fetchNotifications() {
-    makeApiRequest('/users/self/missing_submissions', state).then((res) => res.json().then((json) => {
+    makeApiRequest('/users/self/missing_submissions?filter%5B%5D=submittable&include%5B%5D=planner_overrides', state).then((res) => res.json().then((json) => {
       if (typeof json == 'object') {
-        if (json[0]) dispatch({ type: 'SETOVERDUE', value: true })
+        let hasOverdue: boolean
+        // muted is 
+        for (let thing of json) {
+          if (!thing.planner_override) {
+            hasOverdue = true
+            continue
+          }
+        }
+        
+        if (hasOverdue) dispatch({ type: 'SETOVERDUE', value: true })
+        else dispatch({ type: 'SETOVERDUE', value: false })
         storeApi(json)
         return setRefresh(false)
       }

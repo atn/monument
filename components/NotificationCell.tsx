@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 export function NotificationCell({ item }: any) {
   const [showing, setShow] = React.useState(false)
+  if (item.muted) return <Text></Text>
   return (
     <>
     <AssignmentModal close={() => setShow(false)} assignment={item} isShowing={showing} />
@@ -17,7 +18,6 @@ export function NotificationCell({ item }: any) {
             <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
             <Text style={{fontSize: 13}}>Due {dateTimeFormat.format(new Date(item.due_at))}</Text>
           </View>
-          <Ionicons style={{paddingLeft: 60}} name='alert' size={30} color='red' />
         </View>
       </View>
     </TouchableOpacity>
