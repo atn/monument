@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 import BottomSheet from 'reanimated-bottom-sheet'
 
 import { TodoCell } from './TodoCell'
+import { NotificationCell } from './NotificationCell'
 
 export const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
   weekday: 'long',
@@ -56,36 +57,66 @@ export function Todo() {
     }))
   }
 
+  function renderNotifs() {
+    return (
+      <Notifications />
+    )
+  }
+
   return (
     <>
       <BottomSheet
         ref={missing}
         snapPoints={[-100, 400]}
-        renderContent={renderMissing}
+        renderContent={renderNotifs}
       />
-    <SafeAreaView style={{margin: 17}}>
+    <SafeAreaView style={{margin: 17, marginBottom: 70}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>
           <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Todo</Text>
         </View>
-        <TouchableOpacity style={{marginLeft: 'auto', alignSelf: 'center'}}  onPress={() => (missing as any).current.snapTo(1)} >
-          <Ionicons name='notifications-circle' size={30} />
-        </TouchableOpacity>
+        {state.overdueAssignments && 
+          <TouchableOpacity style={{marginLeft: 'auto', alignSelf: 'center'}}  onPress={() => (missing as any).current.snapTo(1)} >
+            <Ionicons name='alert-circle' size={30} color='red' />
+          </TouchableOpacity>
+        }
       </View>
         {assignments &&
-          <FlatList style={{paddingBottom: 20}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
+          <FlatList style={{}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
         }
     </SafeAreaView>
     </>
     )
 }
 
-function renderMissing() {
+function Notifications() {
+  const dispatch = useDispatch()
+  const state = useSelector((state: any) => state)
+  const [notifications, storeApi] = useState([])
+  const [refreshing, setRefresh] = useState(false)
+
+  useEffect(() => {
+    setRefresh(true)
+    fetchNotifications()
+  }, [])
+
+  function fetchNotifications() {
+    makeApiRequest('/users/self/missing_submissions', state).then((res) => res.json().then((json) => {
+      if (typeof json == 'object') {
+        if (json[0]) dispatch({ type: 'SETOVERDUE', value: true })
+        storeApi(json)
+        return setRefresh(false)
+      }
+    }))
+  }
+
   return (
     <View style={{height: 400, backgroundColor: `#fff`, borderColor: '#000', borderBottomWidth: 0, borderWidth: 1, borderRadius: 20, padding: 20 }}>
-      <Text style={{fontSize: 20, fontWeight: 'bold', paddingBottom: 10}}>Notifications</Text>
-      <Text style={{fontSize: 15, fontWeight: 'bold', paddingBottom: 10}}>Coming Soon</Text>
+      <Text style={{fontSize: 20, fontWeight: 'bold', paddingBottom: 10}}>Overdue Assignments</Text>
+      {notifications &&
+        <FlatList style={{}} refreshing={refreshing} onRefresh={() => fetchNotifications()} showsVerticalScrollIndicator={false} data={notifications} renderItem={renderNotification} keyExtractor={(item: any) => item.id || item.quiz_id} />
+      }
     </View>
   )
 }
@@ -93,3 +124,7 @@ function renderMissing() {
 const renderItem = ({ item }: any) => (
   <TodoCell item={item}/>
 );
+
+const renderNotification = ({ item }: any) => (
+  <NotificationCell item={item} />
+)

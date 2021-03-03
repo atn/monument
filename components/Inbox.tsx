@@ -28,7 +28,7 @@ export function Inbox() {
   }
 
   return (
-    <SafeAreaView style={{margin: 17}}>
+    <SafeAreaView style={{margin: 17, marginBottom: 70}}>
       <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>
       <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>Inbox</Text>
       {conversations &&

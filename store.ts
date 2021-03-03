@@ -15,7 +15,8 @@ const initialState = {
   token: '',
   domain: '',
   user: {},
-  courses: []
+  courses: [],
+  overdueAssignments: false,
 }
 
 //
@@ -43,6 +44,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         courses: action.value
+      }
+    case 'SETOVERDUE':
+      return {
+        ...state,
+        overdueAssignments: action.value
       }
     default:
       return state

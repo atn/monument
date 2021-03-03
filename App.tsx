@@ -19,6 +19,7 @@ import { QRSetup } from './components/QRSetup'
 import { Setup } from './components/Setup'
 import { Todo } from './components/TodoList'
 import { Inbox } from './components/Inbox'
+import { Chat } from './components/chat/Chat'
 import { LongButton } from './components/LongButton'
 
 const Tabs = createBottomTabNavigator()
@@ -64,6 +65,9 @@ function App() {
                 break;
               case 'QR Setup':
                 iconName='qr-code'
+                break;
+              case 'Chat':
+                iconName='chatbubbles'
             }
             // You can return any component that you like here!
             return <Ionicons name={iconName as any} size={size} color={color} />;
@@ -72,7 +76,10 @@ function App() {
           {state.token ? (
             <>
               <Tabs.Screen name="Todo" component={Todo}/>
-              <Tabs.Screen name="Inbox" component={Inbox}/>
+              {false &&
+                <Tabs.Screen name="Chat" component={Chat}/>
+              }
+               <Tabs.Screen name="Inbox" component={Inbox}/>
               <Tabs.Screen name="Settings" component={Settings}/>
             </>
           ) : (
@@ -110,7 +117,7 @@ function Settings() {
   }
 
   function clearCache() {
-    return
+    return alert('this button does nothing ')
   }
 
   return (
@@ -120,7 +127,6 @@ function Settings() {
       <Text>enrolled in <Text style={{fontWeight: 'bold'}}>{state.courses.length}</Text> course{state.courses.length > 1 ? 's' : ''}</Text>
       <Text>on domain <Text style={{fontWeight: 'bold'}}>{state.domain}</Text></Text>
       <LongButton onPress={() => logout()} color="#ffbab5" title="Logout"/>
-      <LongButton onPress={() => checkForUpdate()} color="#ccfff0" title="Check for updates"/>
       <LongButton onPress={() => clearCache()} color="#fbffab" title="Clear Cache"/>
     </SafeAreaView>
   )

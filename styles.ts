@@ -7,6 +7,12 @@ export const styles = StyleSheet.create({
     padding: 11,
     margin: 4,
   },
+  notifCell: {
+    backgroundColor: '#f2f2f2',
+    borderRadius: 9,
+    padding: 11,
+    margin: 4,
+  },
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
