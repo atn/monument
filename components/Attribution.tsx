@@ -16,6 +16,9 @@ export function Attribution() {
       <TouchableOpacity style={{paddingTop: 5}} onPress={() => Linking.openURL('https://aust.nyc/mnmt/privacy')}>
         <Text style={{color: 'teal', fontWeight: 'bold'}}>privacy policy</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={{paddingTop: 5}} onPress={() => Linking.openURL('mailto:austin@astn.me')}>
+        <Text style={{color: 'red', fontWeight: 'bold'}}>contact</Text>
+      </TouchableOpacity>
     </View>
   )
 }

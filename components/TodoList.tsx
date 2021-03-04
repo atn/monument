@@ -42,14 +42,16 @@ export function Todo() {
   function fetchAPI() {
     makeApiRequest('/users/self/todo', state)
       .then(res => {
-        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
         res.json().then((json) => {
           if (json) {
             storeApi(json)
-            return setRefresh(false)
+            setTimeout(() => {
+              setRefresh(false)
+            }, 300);
+            return
           }
-          storeApi([])
-          return setRefresh(false)
+          return storeApi([])
         })
       })
   }
@@ -57,7 +59,7 @@ export function Todo() {
   function fetchUser() {
     makeApiRequest('/users/self', state)
       .then(res => {
-        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
         res.json().then((json) => {
           if (json) return dispatch({
             type: 'SETUSER',
@@ -67,7 +69,7 @@ export function Todo() {
       })
     makeApiRequest('/courses', state)
       .then(res => {
-        if (!res.ok) return alert(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
         res.json().then((json) => {
           if (json) return dispatch({
             type: 'SETCOURSES',
