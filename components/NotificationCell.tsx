@@ -7,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons'
 
 export function NotificationCell({ item }: any) {
   const [showing, setShow] = React.useState(false)
-  if (item.muted) return <Text></Text>
   return (
     <>
     <AssignmentModal close={() => setShow(false)} assignment={item} isShowing={showing} />

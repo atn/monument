@@ -124,23 +124,24 @@ function Notifications() {
   }, [])
 
   function fetchNotifications() {
-    makeApiRequest('/users/self/missing_submissions?filter%5B%5D=submittable&include%5B%5D=planner_overrides', state).then((res) => res.json().then(async (json) => {
-      if (typeof json == 'object') {
+    makeApiRequest('/users/self/missing_submissions?filter%5B%5D=submittable&include%5B%5D=planner_overrides&page=1&per_page=1000', state).then((res) => {res.json().then(async (json) => {
         let hasOverdue: boolean
-        // muted is 
+        let overdueAssignments = []
+        // if dismissed (bc canvas api is bad)
         for (let thing of json) {
-          if (!thing.planner_override) {
+          console.log(thing.planner_override.dismissed)
+          if (!thing.planner_override.dismissed) {
             hasOverdue = true
+            overdueAssignments.push(thing)
             continue
           }
         }
         
         if (hasOverdue) dispatch({ type: 'SETOVERDUE', value: true })
         else dispatch({ type: 'SETOVERDUE', value: false })
-        await storeApi(json)
+        storeApi(overdueAssignments)
         setRefresh(false)
-      }
-    }))
+    })})
   }
 
   return (
