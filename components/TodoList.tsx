@@ -9,18 +9,7 @@ import BottomSheet from 'reanimated-bottom-sheet'
 import { TodoCell } from './TodoCell'
 import { NotificationCell } from './NotificationCell'
 
-export const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-});
 
-export const todayFormat = new Intl.DateTimeFormat('en-US', {
-  hour: 'numeric',
-  minute: 'numeric',
-});
 
 export function Todo() {
   const dispatch = useDispatch()
@@ -45,11 +34,13 @@ export function Todo() {
         if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
         res.json().then((json) => {
           if (json) {
-            storeApi(json)
-            setTimeout(() => {
-              setRefresh(false)
-            }, 300);
-            return
+            let sorted = json.sort(function(a,b){
+              const dateA = new Date(a.assignment.due_at)
+              const dateB = new Date(b.assignment.due_at)
+              return dateA.getTime() - dateB.getTime()
+            });
+            storeApi(sorted)
+            return setRefresh(false)
           }
           return storeApi([])
         })
@@ -112,6 +103,8 @@ export function Todo() {
     )
 }
 
+// notifications
+
 function Notifications() {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state)
@@ -129,11 +122,10 @@ function Notifications() {
         let overdueAssignments = []
         // if dismissed (bc canvas api is bad)
         for (let thing of json) {
-          console.log(thing.planner_override.dismissed)
           if (!thing.planner_override.dismissed) {
             hasOverdue = true
             overdueAssignments.push(thing)
-            continue
+            continue;
           }
         }
         

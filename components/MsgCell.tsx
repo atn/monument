@@ -1,8 +1,5 @@
 import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
-import { dateTimeFormat } from './TodoList'
-import { styles } from '../styles'
-import { useTheme } from '@react-navigation/native';
 
 type props = {
   item: any

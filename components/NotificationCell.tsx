@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import { AssignmentModal } from './AssignmentModal'
 import { styles } from '../styles'
-import { dateTimeFormat } from './TodoList'
+import { formatDate } from '../utils/date.util'
 import { Ionicons } from '@expo/vector-icons'
 
 export function NotificationCell({ item }: any) {
@@ -15,7 +15,7 @@ export function NotificationCell({ item }: any) {
         <View style={{flexDirection: 'row'}}>
           <View>
             <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
-            <Text style={{fontSize: 13}}>Due {dateTimeFormat.format(new Date(item.due_at))}</Text>
+            <Text style={{fontSize: 13}}>Due {formatDate(item.due_at)}</Text>
           </View>
         </View>
       </View>
