@@ -99,7 +99,7 @@ export function Todo() {
           <FlatList style={{}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
         }
     </SafeAreaView>
-    </>
+    </>    
     )
 }
 
@@ -122,6 +122,7 @@ function Notifications() {
         let overdueAssignments = []
         // if dismissed (bc canvas api is bad)
         for (let thing of json) {
+          if (thing.planner_override === null) continue;
           if (!thing.planner_override.dismissed) {
             hasOverdue = true
             overdueAssignments.push(thing)
