@@ -35,7 +35,6 @@ export function Chat() {
 
     const _handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-        console.log('PEJHFKJSH')
         connection = new SocketManager(wsURL)
         listen(connection)
       }
