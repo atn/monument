@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native'
+import { AppState, Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeApiRequest } from '../utils/rest.util'
 import { Ionicons } from '@expo/vector-icons'
@@ -31,10 +31,11 @@ export function Todo() {
   function fetchAPI() {
     makeApiRequest('/users/self/todo', state)
       .then(res => {
-        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) alert(`Server responded with error ${res.status} (${res.type}) a`)
         res.json().then((json) => {
           if (json) {
-            let sorted = json.sort(function(a,b){
+            console.log(json[1].assignment.due_at)
+              let sorted = json.sort(function(a,b){
               const dateA = new Date(a.assignment.due_at)
               const dateB = new Date(b.assignment.due_at)
               return dateA.getTime() - dateB.getTime()
@@ -50,7 +51,7 @@ export function Todo() {
   function fetchUser() {
     makeApiRequest('/users/self', state)
       .then(res => {
-        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) alert(`Server responded with error ${res.status} (${res.type}) b`)
         res.json().then((json) => {
           if (json) return dispatch({
             type: 'SETUSER',
@@ -60,7 +61,7 @@ export function Todo() {
       })
     makeApiRequest('/courses', state)
       .then(res => {
-        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) alert(`Server responded with error ${res.status} (${res.type}) c`)
         res.json().then((json) => {
           if (json) return dispatch({
             type: 'SETCOURSES',

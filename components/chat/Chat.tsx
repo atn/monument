@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { SafeAreaView, Text, Button, View } from 'react-native'
+import { AppState, SafeAreaView, Text, Button, View } from 'react-native'
 
 type wsState = [
   ws: WebSocket,
@@ -9,17 +9,45 @@ type wsState = [
 
 export function Chat() {
   const [ status, setStatus ] = useState('Disconnected')
+  const appState = useRef(AppState.currentState);
   const state = useSelector((state: any) => state)
+
   useEffect(() => {
-    const connection = new WebSocket(`ws://192.168.1.234:3001?domain=${state.domain}&refresh=${state.refresh}`)
-    listen(connection)
+    connect()
   }, [])
+
+  function connect() {
+    const wsURL = `ws://192.168.1.234:3001?domain=${state.domain}&refresh=${state.refresh}`
+    let connection = new WebSocket(wsURL)
+    listen(connection)
+
+    const _handleAppStateChange = (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        console.log('')
+        connection = new WebSocket(wsURL)
+        listen(connection)
+      }
+
+      if (nextAppState === 'background') {
+        console.log('dsfda')
+        connection.close()
+      }
+  
+      appState.current = nextAppState;
+    };
+  
+
+    AppState.addEventListener('change', _handleAppStateChange)
+  }
   
   function listen(wsc: WebSocket) {
     wsc.onopen = function() {
       setStatus('Connected')
       console.log('open')
-      wsc.send(JSON.stringify({joe: 'mama'}))
+      // Heartbeat interval
+      setInterval(() => {
+        wsc.send(JSON.stringify({op: 85}))
+      }, 5000)
     }
   
     wsc.onmessage = function(msg) {
@@ -28,7 +56,7 @@ export function Chat() {
     
     wsc.onclose = function() {
       setStatus('Disconnected')
-      console.log('close')
+      return console.log('close')
     }
   }
 

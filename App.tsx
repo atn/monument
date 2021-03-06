@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StatusBar, Text, Platform, SafeAreaView } from 'react-native'
+import { AppState, StatusBar, Text, Platform, SafeAreaView } from 'react-native'
 import { useSelector, useDispatch, Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native';
@@ -76,10 +76,10 @@ function App() {
           {state.token ? (
             <>
               <Tabs.Screen name="Todo" component={Todo}/>
-              {state.user.short_name === 'Austin Simon' &&
-                <Tabs.Screen name="Chat" component={Chat}/>
-              }
                <Tabs.Screen name="Inbox" component={Inbox}/>
+               {state.user.short_name === 'Austin Simon' &&
+                <Tabs.Screen name="Chat" component={Chat}/>
+                }
               <Tabs.Screen name="Settings" component={Settings}/>
             </>
           ) : (
