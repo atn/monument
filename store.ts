@@ -17,6 +17,7 @@ const initialState = {
   user: {},
   courses: [],
   overdueAssignments: false,
+  refresh: ''
 }
 
 //
@@ -29,6 +30,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         token: action.value
+      }
+    case 'SETREFRESH':
+      return {
+        ...state,
+        refresh: action.value
       }
     case 'SETUSER':
       return {

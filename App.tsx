@@ -35,6 +35,7 @@ function App() {
       if (key === 'qr') {
         (async () => {
           const refresh = await AsyncStorage.getItem('canvas-refresh')
+          dispatch({type: 'SETREFRESH', value: refresh})
           const token = await getNewToken(refresh, state.domain)
           if (token.error) return alert('Error getting access token. Please logout.')
           dispatch({type: 'SETTOKEN', value: token.access_token})
@@ -75,7 +76,7 @@ function App() {
           {state.token ? (
             <>
               <Tabs.Screen name="Todo" component={Todo}/>
-              {false &&
+              {state.user.short_name === 'Austin Simon' &&
                 <Tabs.Screen name="Chat" component={Chat}/>
               }
                <Tabs.Screen name="Inbox" component={Inbox}/>
