@@ -70,9 +70,6 @@ export function QRSetup({navigation}) {
           <Text style={{fontSize: 30, fontWeight: 'bold', paddingBottom: 10}}>QR Setup</Text>
           <Text style={{fontWeight: 'bold', paddingBottom: 5, fontSize: 18}}>Hey! Ready to setup monument?</Text>
           <Text style={{fontSize: 13}}>Press the button below to scan your Canvas QR Code.</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Setup')}>
-            <Text style={{paddingTop: 5, fontWeight: 'bold', color: 'blue'}}>Or, type in your token manually</Text>
-          </TouchableOpacity>
           <LongButton title='Scan QR Code' color='#edfff9' onPress={() => startQRSession()} />
           <Text style={{paddingTop: 7}}>You can find this on your canvas profile, under "QR For Mobile Login"</Text>
         </View>

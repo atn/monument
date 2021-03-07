@@ -24,6 +24,8 @@ export function Todo() {
       fetchAPI()
       fetchUser()
     } catch (err) {
+      fetchAPI()
+      fetchUser()
       alert(err.toString())
     }
   }, [])

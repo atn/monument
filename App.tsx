@@ -84,8 +84,7 @@ function App() {
             </>
           ) : (
             <>
-              <Tabs.Screen name="QR Setup" component={QRSetup}/>
-              <Tabs.Screen name="Setup" component={Setup}/>
+              <Tabs.Screen name="Setup" component={QRSetup}/>
             </>
           )}
       </Tabs.Navigator>
