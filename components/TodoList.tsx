@@ -24,8 +24,6 @@ export function Todo() {
       fetchAPI()
       fetchUser()
     } catch (err) {
-      fetchAPI()
-      fetchUser()
       alert(err.toString())
     }
   }, [])
@@ -33,7 +31,10 @@ export function Todo() {
   function fetchAPI() {
     makeApiRequest('/users/self/todo', state)
       .then(res => {
-        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) {
+          fetchAPI()
+          throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        }
         res.json().then((json) => {
           if (json) {
             let sorted = json.sort(function(a,b){
@@ -52,7 +53,10 @@ export function Todo() {
   function fetchUser() {
     makeApiRequest('/users/self', state)
       .then(res => {
-        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) {
+          fetchUser()
+          throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        }
         res.json().then((json) => {
           if (json) return dispatch({
             type: 'SETUSER',
@@ -62,7 +66,10 @@ export function Todo() {
       })
     makeApiRequest('/courses', state)
       .then(res => {
-        if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        if (!res.ok) {
+          fetchUser()
+          throw new Error(`Server responded with error ${res.status} (${res.type})`)
+        }
         res.json().then((json) => {
           if (json) return dispatch({
             type: 'SETCOURSES',

@@ -11,15 +11,15 @@ export class SocketManager extends EventEmitter {
     this.init()
   }
 
-  async send(op: number, data?: any) {
+  async send(type: string, data?: any) {
     if (!this.ws) throw new Error('Websocket connection doesn\'t exist.')
-    if (data) return this.ws.send(JSON.stringify({op: op, data: data}))
-    return this.ws.send(JSON.stringify({op: op}))
+    if (data) return this.ws.send(JSON.stringify({type, data}))
+    return this.ws.send(JSON.stringify({type}))
   }
 
   async startHeartbeat() {
     this.heartbeatInterval = setInterval(() => {
-      this.send(85)
+      this.send('HEARTBEAT')
     }, 5000)
   }
 

@@ -28,7 +28,7 @@ export function Chat() {
       {status === 'Disconnected' ?
         (<Button title='Retry' onPress={() => alert('this button does nothing, restart the app to reconnect.')} />)
         :
-        (<Button title='test' onPress={() => wsc.send(2, {content: 'hi'})}/>)
+        (<Button title='test' onPress={() => wsc.send('SEND_MSG', {content: 'hi'})}/>)
       }
       <FlatList renderItem={renderItem} style={{}} data={messages} keyExtractor={(item: any) => item.content} />
     </SafeAreaView>
@@ -59,11 +59,6 @@ export function Chat() {
     wsc.on('open', () => {
       setStatus('Connected')
       console.log('open')
-      // Heartbeat interval
-      setInterval(() => {
-        console.log('sending heartbeat')
-        wsc.send(85)
-      }, 5000)
     })
 
     wsc.on('msg', (data) => {
