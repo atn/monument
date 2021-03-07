@@ -77,7 +77,9 @@ function App() {
             <>
               <Tabs.Screen name="Todo" component={Todo}/>
                <Tabs.Screen name="Inbox" component={Inbox}/>
+               {false &&
                 <Tabs.Screen name="Chat" component={Chat}/>
+               }
               <Tabs.Screen name="Settings" component={Settings}/>
             </>
           ) : (
