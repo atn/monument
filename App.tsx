@@ -77,9 +77,7 @@ function App() {
             <>
               <Tabs.Screen name="Todo" component={Todo}/>
                <Tabs.Screen name="Inbox" component={Inbox}/>
-               {state.user.short_name === 'Austin Simon' &&
                 <Tabs.Screen name="Chat" component={Chat}/>
-                }
               <Tabs.Screen name="Settings" component={Settings}/>
             </>
           ) : (
