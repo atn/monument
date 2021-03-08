@@ -27,7 +27,6 @@ function App() {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state)
   useEffect(() => {
-    // need this b/c redis doesn't persist sometimes
     AsyncStorage.getItem('canvas-auth').then((key) => {
       if (key) dispatch({type: 'SETTOKEN', value: key.replace(/\s/g, '')})
     })
@@ -42,7 +41,6 @@ function App() {
         })()
       }
     })
-    AsyncStorage.getItem('canvas-domain').then((key) => dispatch({type: 'SETDOMAIN', value: key}))
   }, [])
   return (
     <NavigationContainer>

@@ -20,7 +20,6 @@ export function Todo() {
 
   useEffect(() => {
     try {
-      setRefresh(true)
       fetchAPI()
       fetchUser()
     } catch (err) {
@@ -42,8 +41,7 @@ export function Todo() {
               const dateB = new Date(b.assignment.due_at)
               return dateA.getTime() - dateB.getTime()
             });
-            storeApi(sorted)
-            return setRefresh(false)
+            return storeApi(sorted)
           }
           return storeApi([])
         })
