@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native'
+import { Text, View, FlatList, TouchableOpacity, SafeAreaView, Button } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeApiRequest } from '../utils/rest.util'
 import { Ionicons } from '@expo/vector-icons'
@@ -9,12 +9,13 @@ import BottomSheet from 'reanimated-bottom-sheet'
 import { TodoCell } from './TodoCell'
 import { NotificationCell } from './NotificationCell'
 
-
+const noAssignments = ['You\'re free! No assignments left 🎉',  'Nothing to see here, relax 😎', 'You cleared your todo list, somehow 😳', 'Woohoo! you have no assignments 🎊']
 
 export function Todo() {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state)
   const [assignments, storeApi] = useState([])
+  const [no, setNo] = useState('')
   const [refreshing, setRefresh] = useState(false)
   const missing = React.useRef<BottomSheet>(null);
 
@@ -22,6 +23,7 @@ export function Todo() {
     try {
       fetchAPI()
       fetchUser()
+      setNo(noAssignments[Math.floor(Math.random() * noAssignments.length)])
     } catch (err) {
       alert(err.toString())
     }
@@ -102,8 +104,15 @@ export function Todo() {
           </TouchableOpacity>
         }
       </View>
-        {assignments &&
-          <FlatList style={{}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />
+        {assignments.length > 0 ? 
+          (<FlatList style={{}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />)
+          :
+          (
+            <>
+              <Text style={{textAlign: 'center', fontSize: 18, fontWeight: '600'}}>{no}</Text>
+              <Button title="Refresh" onPress={() => fetchAPI()}/>
+            </>
+          )
         }
     </SafeAreaView>
     </>    

@@ -14,7 +14,6 @@ export function Chat() {
   const [ messages, setMessages ] = useState([])
   const [ wsc, setWsc ]: wsc = useState(null)
   const appState = useRef(AppState.currentState);
-  const scrollView = useRef()
   const state = useSelector((state: any) => state)
 
   useEffect(() => {
