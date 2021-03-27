@@ -13,7 +13,7 @@ import { persistor, store } from './store'
 import { getNewToken } from './utils/rest.util'
 
 import { QRSetup } from './components/QRSetup'
-import { Setup } from './components/Setup'
+import { Grades } from './components/Grades'
 import { Todo } from './components/TodoList'
 import { Inbox } from './components/Inbox'
 import { Attribution } from './components/Attribution'
@@ -66,6 +66,9 @@ function App() {
                 break;
               case 'Chat':
                 iconName='chatbubbles'
+                break;
+              case 'Grades':
+                iconName='school'
             }
             // You can return any component that you like here!
             return <Ionicons name={iconName as any} size={size} color={color} />;
@@ -73,11 +76,14 @@ function App() {
         })}>
           {state.token ? (
             <>
-              <Tabs.Screen name="Todo" component={Todo}/>
-               <Tabs.Screen name="Inbox" component={Inbox}/>
-               {false &&
-                <Tabs.Screen name="Chat" component={Chat}/>
-               }
+                <Tabs.Screen name="Todo" component={Todo}/>
+                <Tabs.Screen name="Inbox" component={Inbox}/>
+                {state.domain === 'halfhollowhills.instructure.com' &&
+                  <Tabs.Screen name="Grades" component={Grades} />
+                }
+                {false &&
+                  <Tabs.Screen name="Chat" component={Chat}/>
+                }
               <Tabs.Screen name="Settings" component={Settings}/>
             </>
           ) : (

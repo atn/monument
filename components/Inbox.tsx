@@ -13,7 +13,6 @@ export function Inbox() {
   const [refreshing, setRefresh] = useState(false)
   useEffect(() => {
     try {
-      setRefresh(true)
       fetchAPI()
     } catch (err) {
       alert(err.toString())
@@ -21,6 +20,7 @@ export function Inbox() {
   }, [])
 
   function fetchAPI() {
+    setRefresh(true)
     makeApiRequest('/conversations?scope=inbox', state)
       .then(res => {
         if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
@@ -30,6 +30,7 @@ export function Inbox() {
             return setRefresh(false)
           }
           storeApi([])
+          setRefresh(false)
         })
       })
   }

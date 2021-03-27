@@ -21,6 +21,7 @@ export function Todo() {
 
   useEffect(() => {
     try {
+      setRefresh(true)
       fetchAPI()
       fetchUser()
       setNo(noAssignments[Math.floor(Math.random() * noAssignments.length)])
@@ -30,6 +31,7 @@ export function Todo() {
   }, [])
 
   function fetchAPI() {
+    setRefresh(true)
     makeApiRequest('/users/self/todo', state)
       .then(res => {
         if (!res.ok) {
@@ -43,9 +45,12 @@ export function Todo() {
               const dateB = new Date(b.assignment.due_at)
               return dateA.getTime() - dateB.getTime()
             });
-            return storeApi(sorted)
+            
+            storeApi(sorted)
+            return setRefresh(false)
           }
-          return storeApi([])
+          storeApi([])
+          return setRefresh(false)
         })
       })
   }
@@ -110,7 +115,7 @@ export function Todo() {
           (
             <>
               <Text style={{textAlign: 'center', fontSize: 18, fontWeight: '600'}}>{no}</Text>
-              <Button title="Refresh" onPress={() => fetchAPI()}/>
+              <Button title={(refreshing ? 'Loading...' : 'Refresh Todo')} disabled={refreshing} onPress={() => {setRefresh(true); fetchAPI()}}/>
             </>
           )
         }
