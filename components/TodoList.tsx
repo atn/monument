@@ -21,10 +21,10 @@ export function Todo() {
 
   useEffect(() => {
     try {
-      setRefresh(true)
-      fetchAPI()
       fetchUser()
       setNo(noAssignments[Math.floor(Math.random() * noAssignments.length)])
+      storeApi(state.todo_cache)
+      setTimeout(() => fetchAPI(), 100)
     } catch (err) {
       alert(err.toString())
     }
@@ -35,17 +35,17 @@ export function Todo() {
     makeApiRequest('/users/self/todo', state)
       .then(res => {
         if (!res.ok) {
-          fetchAPI()
           throw new Error(`Server responded with error ${res.status} (${res.type})`)
         }
         res.json().then((json) => {
           if (json) {
-            let sorted = json.sort(function(a,b){
+            const sorted = json.sort(function(a, b) {
               const dateA = new Date(a.assignment.due_at)
               const dateB = new Date(b.assignment.due_at)
               return dateA.getTime() - dateB.getTime()
             });
             
+            dispatch({type: 'SETTODOCACHE', value: sorted})
             storeApi(sorted)
             return setRefresh(false)
           }
@@ -110,12 +110,12 @@ export function Todo() {
         }
       </View>
         {assignments.length > 0 ? 
-          (<FlatList style={{}} refreshing={refreshing} onRefresh={() => fetchAPI()} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />)
+          (<FlatList style={{}} refreshing={refreshing} onRefresh={() => {setRefresh(true); fetchAPI()}} showsVerticalScrollIndicator={false} data={assignments} renderItem={renderItem} keyExtractor={(item: any) => item.assignment.id || item.assignment.quiz_id} />)
           :
           (
             <>
               <Text style={{textAlign: 'center', fontSize: 18, fontWeight: '600'}}>{no}</Text>
-              <Button title={(refreshing ? 'Loading...' : 'Refresh Todo')} disabled={refreshing} onPress={() => {setRefresh(true); fetchAPI()}}/>
+              <Button title={(refreshing ? 'Loading...' : 'Refresh Todo')} disabled={refreshing} onPress={() => fetchAPI()}/>
             </>
           )
         }

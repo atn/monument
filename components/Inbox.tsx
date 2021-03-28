@@ -2,18 +2,20 @@
 
 import React, { useState, useEffect } from 'react'
 import { Text, FlatList, SafeAreaView } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { MsgCell } from './MsgCell'
 
 import { makeApiRequest } from '../utils/rest.util'
 
 export function Inbox() {
   const state = useSelector((state: any) => state)
+  const dispatch = useDispatch()
   const [conversations, storeApi] = useState([])
   const [refreshing, setRefresh] = useState(false)
   useEffect(() => {
     try {
-      fetchAPI()
+      storeApi(state.inbox_cache)
+      setTimeout(() => fetchAPI(), 100)
     } catch (err) {
       alert(err.toString())
     }
@@ -26,6 +28,7 @@ export function Inbox() {
         if (!res.ok) throw new Error(`Server responded with error ${res.status} (${res.type})`)
         res.json().then((json) => {
           if (json) {
+            dispatch({type: 'SETINBOXCACHE', value: json})
             storeApi(json)
             return setRefresh(false)
           }

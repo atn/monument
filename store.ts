@@ -15,6 +15,8 @@ const initialState = {
   token: '',
   domain: '',
   user: {},
+  todo_cache: [],
+  inbox_cache: [],
   courses: [],
   overdueAssignments: false,
   refresh: ''
@@ -55,6 +57,16 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         overdueAssignments: action.value
+      }
+    case 'SETTODOCACHE':
+      return {
+        ...state,
+        todo_cache: action.value
+      }
+    case 'SETINBOXCACHE':
+      return {
+        ...state,
+        inbox_cache: action.value
       }
     default:
       return state
