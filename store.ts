@@ -68,6 +68,12 @@ const reducer = (state = initialState, action: any) => {
         ...state,
         inbox_cache: action.value
       }
+    case 'CLEARCACHE':
+      return {
+        ...state,
+        inbox_cache: [],
+        todo_cache: []
+      }
     default:
       return state
   }

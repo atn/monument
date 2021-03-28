@@ -120,7 +120,8 @@ function Settings() {
   }
 
   function clearCache() {
-    return alert('this button does nothing ')
+    dispatch({type: 'CLEARCACHE'})
+    return alert('cache cleared')
   }
 
   return (
