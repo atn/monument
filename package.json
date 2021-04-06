@@ -12,6 +12,7 @@
     "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-navigation/bottom-tabs": "^5.11.8",
     "@react-navigation/native": "^5.9.3",
+    "@segment/analytics-react-native": "^1.4.3",
     "events": "^3.3.0",
     "expo": "^40.0.1",
     "expo-barcode-scanner": "~9.1.0",
