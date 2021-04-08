@@ -97,7 +97,7 @@ export function Todo() {
         snapPoints={[-100, 400]}
         renderContent={renderNotifs}
       />
-    <SafeAreaView style={{flexGrow: 1, margin: 17}}>
+    <SafeAreaView style={{flexGrow: 1, margin: 17, paddingBottom: 10}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           <Text style={{fontSize: 15, fontWeight: '600'}}>Canvas</Text>
